@@ -1,4 +1,5 @@
 import pickle
+import os
 
 
 class Player:
@@ -177,6 +178,7 @@ difficulty = {
 player = Player([6, 0], 10, 10000)
 print("송도 생활을 마치고 신촌에 처음 도착했다. 연대앞 버스정류장이다.")
 
+player_input =[]
 
 while True:
     if player.hp <= 0:
@@ -338,3 +340,13 @@ while True:
                         break
                     else:
                         print("잘못된 입력입니다.")
+
+    elif user_input == "저장":
+        player_save = {
+            "player": player,
+            "player_input": player_input
+        }
+        file_name=input("저장할 파일명: ")
+        with open(file_name + ".pkl", "wb") as f:
+            pickle.dump(player_save, f)
+        print(f"{file_name} 에 저장되었습니다")
