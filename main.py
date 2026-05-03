@@ -186,6 +186,7 @@ while True:
         break
 
     user_input = input("입력: ")
+    player_input.append(user_input)
 
     if user_input == "상태":
         player.print_status(campus_map)
@@ -350,3 +351,26 @@ while True:
         with open(file_name + ".pkl", "wb") as f:
             pickle.dump(player_save, f)
         print(f"{file_name} 에 저장되었습니다")
+
+    elif user_input == "불러오기":
+        player_saves = [f for f in os.listdir(".") if f.endswith(".pkl")]
+
+        if not player_saves:
+            print("저장된 파일이 없습니다")
+        else:
+            for i, file in enumerate(player_saves):
+                print(f"{i+1}. {file}")
+            save_recall = input("불러올 파일을 선택하세요: ")
+            if save_recall.isdigit() and 1 <= int(save_recall) <= len(player_saves):
+                file_name = player_saves[int(save_recall)-1]
+            else:
+                file_name = save_recall
+                if not os.path.exists(file_name):
+                    print("파일을 찾을 수 없습니다.")
+                    continue
+            with open(file_name, "rb") as f:
+                player_save = pickle.load(f)
+
+            player = player_save["player"]
+            player_input = player_save["player_input"]
+            print("불러오기 완료!")
